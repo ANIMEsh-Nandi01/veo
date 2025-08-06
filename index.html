@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive Access - Payment Required</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
+        }
+
+        .drive-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #4285f4, #34a853);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(66, 133, 244, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .price-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #e8eaed;
+        }
+
+        .price {
+            font-size: 36px;
+            font-weight: 800;
+            color: #4285f4;
+            margin-bottom: 5px;
+        }
+
+        .price-label {
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        .features {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .feature::before {
+            content: '✓';
+            background: #34a853;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4285f4, #34a853);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(66, 133, 244, 0.4);
+        }
+
+        .pay-button:active {
+            transform: translateY(0);
+        }
+
+        .upi-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #856404;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .secure-badge::before {
+            content: '🔒';
+            margin-right: 5px;
+        }
+
+        @media (max-width: 480px) {
+            .payment-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .price {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="drive-icon">📁</div>
+        
+        <h1>Access Google Drive</h1>
+        <p class="subtitle">Secure payment required to access premium content</p>
+        
+        <div class="price-section">
+            <div class="price">₹50</div>
+            <div class="price-label">One-time payment</div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">Instant access to Google Drive</div>
+            <div class="feature">24/7 availability</div>
+            <div class="feature">Secure download links</div>
+            <div class="feature">Mobile friendly access</div>
+        </div>
+        
+        <button class="pay-button" onclick="initiatePayment()">
+            Pay Now with UPI
+        </button>
+        
+        <div class="upi-info">
+            💡 You'll be redirected to your UPI app (Google Pay, PhonePe, Paytm, etc.) to complete the payment
+        </div>
+        
+        <div class="secure-badge">
+            Secure Payment Gateway
+        </div>
+    </div>
+
+    <script>
+        function initiatePayment() {
+            // UPI payment details
+            const upiId = '9002620962@ptsbi';
+            const payeeName = 'Drive Access';
+            const amount = '50';
+            const transactionNote = 'Google Drive Access Payment';
+            
+            // Create UPI payment URL
+            const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+            
+            // Try to open UPI app
+            try {
+                window.location.href = upiUrl;
+                
+                // Show success message after a delay
+                setTimeout(() => {
+                    if (confirm('Payment initiated! Click OK after completing payment to access Google Drive.')) {
+                        // Replace with your Google Drive link
+                        window.open('https://drive.google.com/your-drive-link', '_blank');
+                    }
+                }, 2000);
+                
+            } catch (error) {
+                alert('Unable to open UPI app. Please ensure you have a UPI app installed (Google Pay, PhonePe, Paytm, etc.)');
+            }
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.querySelector('.pay-button');
+            const container = document.querySelector('.payment-container');
+            
+            // Add entrance animation
+            container.style.transform = 'translateY(50px)';
+            container.style.opacity = '0';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.6s ease';
+                container.style.transform = 'translateY(0)';
+                container.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
